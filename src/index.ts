@@ -1,9 +1,10 @@
-type Planet = "Mercúrio" | "Vênus" | ""
-
-type GreetingCallback = (name: string) => void
-
-function greet(callbackfn: GreetingCallback){
-    let name = "leo"
-
-    callbackfn(name)
+let situacao :  "habitado" | "habitável" | "inabitavel" | "inexplorado"
+function newPlanet(){
+    
+    const newPlanet = {
+        nome: String,
+        coordenadas: [Number,Number,Number,Number],
+        situacao : String,
+        satelites: []
+    }
 }
