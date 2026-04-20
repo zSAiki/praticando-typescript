@@ -73,3 +73,34 @@ function promptValidSituation() {
             }
         }
     }
+
+    function promptValidPlanet(callbackfn: (planet: Planet) => void ){
+        const planetName = String(prompt("Informe o nome do planeta:"))
+        const planet = findPlanet(planetName)
+
+        if (planet) {
+            callbackfn(planet)
+        } else{
+            alert("Planeta não encontrado! Retornando ao menu...")
+        }
+    }
+
+    function firtMenuOption (){
+        const name = String(prompt('Informe o nome do planeta:'))
+        const coorditateA = Number(prompt('Informe a primeira coordenada:'))
+        const coorditateB = Number(prompt('Informe a segunda coordenada:'))
+        const coorditateC = Number(prompt('Informe a terceira coordenada:'))
+        const coorditateD = Number(prompt('Informe a quarta coordenada:'))
+
+        const situation = promptValidSituation() 
+
+        const confirmation = confirm (`Confirma o registo do planeta ${name}? 
+            Coordenadas: (${coorditateA}, ${coorditateB}, ${coorditateC}, ${coorditateD})
+            Situação: ${situation}`)
+
+        if (confirmation) {
+            if(situation){
+                addPlanet(name, [coorditateA, coorditateB, coorditateC, coorditateD], situation)
+            }
+        }
+    }
