@@ -53,3 +53,111 @@ function promptValidSituation() {
         }
     }
 }
+function promptValidPlanet(callbackfn) {
+    const planetName = String(prompt("Informe o nome do planeta:"));
+    const planet = findPlanet(planetName);
+    if (planet) {
+        callbackfn(planet);
+    }
+    else {
+        alert("Planeta não encontrado! Retornando ao menu...");
+    }
+}
+function firtMenuOption() {
+    const name = String(prompt('Informe o nome do planeta:'));
+    const coorditateA = Number(prompt('Informe a primeira coordenada:'));
+    const coorditateB = Number(prompt('Informe a segunda coordenada:'));
+    const coorditateC = Number(prompt('Informe a terceira coordenada:'));
+    const coorditateD = Number(prompt('Informe a quarta coordenada:'));
+    const situation = promptValidSituation();
+    const confirmation = confirm(`Confirma o registo do planeta ${name}? 
+        Coordenadas: (${coorditateA}, ${coorditateB}, ${coorditateC}, ${coorditateD})
+        Situação: ${situation}`);
+    if (confirmation) {
+        if (situation) {
+            addPlanet(name, [coorditateA, coorditateB, coorditateC, coorditateD], situation);
+        }
+    }
+}
+function secondMenuOption() {
+    promptValidPlanet(planet => {
+        const situation = promptValidSituation();
+        if (situation) {
+            updateSituation(situation, planet);
+        }
+    });
+}
+function thirdMenuOption() {
+    promptValidPlanet(planet => {
+        const satellite = prompt("Informe o nome do satélite a ser adicionado:");
+        if (satellite) {
+            addSatellite(satellite, planet);
+        }
+    });
+}
+function fourthMenuOption() {
+    promptValidPlanet(planet => {
+        const satellite = prompt("Informe o nome do satélite a ser removido:");
+        if (satellite) {
+            removeSatellite(satellite, planet);
+        }
+    });
+}
+function fifthMenuOption() {
+    let list = "Planetas:\n";
+    planets.forEach(planet => {
+        const [a, b, c, d] = planet.coordinates;
+        list += `
+        Nome: ${planet.name}
+        Coordenadas: ${planet.coordinates}
+        Situação: ${planet.situation}
+        Satélites: ${planet.satellites.length}
+        `;
+        planet.satellites.forEach(satellite => {
+            list += `    - ${satellite}\n`;
+        });
+    });
+    alert(list);
+}
+let userOption;
+do {
+    const menu = `Menu
+1 - Registrar um novo planeta
+2 - Atualizar situação do planeta
+3 - Adicionar um satélite ao planeta
+4 - Remover um satélite do planeta
+5 - Lista de todos os planetas
+6 - Sair`;
+    const input = prompt(menu);
+    // 👇 Tratamento de cancelamento
+    if (input === null) {
+        alert("Operação cancelada.");
+        break;
+    }
+    userOption = Number(input);
+    // 👇 Validação de número
+    if (Number.isNaN(userOption) || userOption < 1 || userOption > 6) {
+        alert("Opção inválida! Retornando ao painel principal...");
+        continue;
+    }
+    switch (userOption) {
+        case 1:
+            firtMenuOption();
+            break;
+        case 2:
+            secondMenuOption();
+            break;
+        case 3:
+            thirdMenuOption();
+            break;
+        case 4:
+            fourthMenuOption();
+            break;
+        case 5:
+            fifthMenuOption();
+            break;
+        case 6:
+            alert("Encerrando o sistema...");
+            break;
+    }
+} while (userOption !== 6);
